@@ -3,6 +3,8 @@ package com.onedevapp.customchrometabs;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.content.Intent;
+import android.net.Uri;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -19,15 +21,22 @@ public class WebViewActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webview);
         String url = getIntent().getStringExtra(EXTRA_URL);
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "http://$url";
+        }
+
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
+
+        /*setContentView(R.layout.activity_webview);
         WebView webView = findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient());
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         setTitle(url);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        webView.loadUrl(url);
+        webView.loadUrl(url);*/
     }
 
     @Override
